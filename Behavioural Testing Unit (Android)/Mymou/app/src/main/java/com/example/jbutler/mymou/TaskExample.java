@@ -1,4 +1,5 @@
 package com.example.jbutler.mymou;
+
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -98,16 +99,16 @@ public class TaskExample extends Fragment
         cues_O[1] = getView().findViewById(R.id.buttonCue2MonkO);
         cues_V[0] = getView().findViewById(R.id.buttonCue1MonkV);
         cues_V[1] = getView().findViewById(R.id.buttonCue2MonkV);
-        cues_Reward[0]  = getView().findViewById(R.id.buttonRewardZero);
-        cues_Reward[1]  = getView().findViewById(R.id.buttonRewardOne);
-        cues_Reward[2]  = getView().findViewById(R.id.buttonRewardTwo);
-        cues_Reward[3]  = getView().findViewById(R.id.buttonRewardThree);
+        cues_Reward[0] = getView().findViewById(R.id.buttonRewardZero);
+        cues_Reward[1] = getView().findViewById(R.id.buttonRewardOne);
+        cues_Reward[2] = getView().findViewById(R.id.buttonRewardTwo);
+        cues_Reward[3] = getView().findViewById(R.id.buttonRewardThree);
         textView = getView().findViewById(R.id.tvLog);
     }
 
     // Make a predetermined list of the locations on the screen where cues can be placed
     private void calculateCueLocations() {
-        int imageWidths = 175 + 175/2;
+        int imageWidths = 175 + 175 / 2;
         int distanceFromCenter = imageWidths + 30; // Buffer between different task objects
 
         // Find centre of screen in pixels
@@ -118,7 +119,8 @@ public class TaskExample extends Fragment
         int xCenter = screenWidth / 2;
         xCenter -= imageWidths / 2;
         int screenHeight = size.y;
-        int yCenter = screenHeight / 2;;
+        int yCenter = screenHeight / 2;
+        ;
 
         // Y locations
         yLocs[0] = yCenter - distanceFromCenter;
@@ -153,12 +155,12 @@ public class TaskExample extends Fragment
         }
     }
 
-     private void setOnClickListeners() {
-         setOnClickListenerLoop(cues_Reward);
-         setOnClickListenerLoop(cues_O);
-         setOnClickListenerLoop(cues_V);
-         cueGo_O.setOnClickListener(this);
-         cueGo_V.setOnClickListener(this);
+    private void setOnClickListeners() {
+        setOnClickListenerLoop(cues_Reward);
+        setOnClickListenerLoop(cues_O);
+        setOnClickListenerLoop(cues_V);
+        cueGo_O.setOnClickListener(this);
+        cueGo_V.setOnClickListener(this);
     }
 
 
@@ -249,9 +251,9 @@ public class TaskExample extends Fragment
     }
 
     private static void startTrial(int monkId) {
-        logEvent("Trial started for monkey "+monkId);
+        logEvent("Trial started for monkey " + monkId);
 
-        if(!timerRunning) {
+        if (!timerRunning) {
             timer();
         }
 
@@ -271,7 +273,7 @@ public class TaskExample extends Fragment
     }
 
     private void deliverReward(int juiceChoice) {
-        logEvent("Delivering "+rewardAmount+"ms reward on channel "+juiceChoice);
+        logEvent("Delivering " + rewardAmount + "ms reward on channel " + juiceChoice);
         TaskManager.deliverReward(juiceChoice, rewardAmount);
         endOfTrial(1, rewardAmount + 500);
     }
@@ -398,7 +400,6 @@ public class TaskExample extends Fragment
         super.onDestroy();
         cancelHandlers();
     }
-
 
 
 }

@@ -51,9 +51,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         mContext = getApplicationContext();
         activity = (Activity) this;
 
-        initialiseScreenSetttings();
+        initialiseScreenSettings();
 
-        if (MainMenu.useFaceRecog) {
+        if (MainMenu.useFaceRecog == true) {
             // Load facerecog off the main thread as takes a while
             Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -67,7 +67,9 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
 
         initialiseLogHandler();
 
-        this.startLockTask();
+        if (MainMenu.testingMode == false) {
+            this.startLockTask();
+        }
 
 //            // Enable this if you want task to automatically restart on crash
 //            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -200,7 +202,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         }
     }
 
-    private void initialiseScreenSetttings() {
+    private void initialiseScreenSettings() {
         this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         final View decorView = TaskManager.this.getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -296,7 +298,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static boolean checkMonkey(int monkId) {
         if (!MainMenu.useFaceRecog) {
             // If face recog disabled just take a photo and return
-            takePhoto();
+            //takePhoto();
             return true;
         } else {
             // Lock main thread and wait until background thread takes photo and finishes face recog
