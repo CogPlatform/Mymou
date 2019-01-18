@@ -17,16 +17,31 @@ import android.widget.ToggleButton;
 
 public class MainMenu extends Activity  {
 
-    // If true this automatically starts the task upon application startup
-    // Speeds up debugging/testing
+    private static final String TAG = "MainMenu";
+
+    /**
+     * If true this automatically starts the task upon application startup
+     * Speeds up debugging/testing
+     */
     public static final boolean testingMode = true;
 
-    // Can disable bluetooth and RewardSystem connectivity here
+    /**
+     * Can disable bluetooth and RewardSystem connectivity here
+     */
     public static final boolean useBluetooth = false;
 
-    // Can disable facial recognition here
-    // To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt) present in the Mymou folder
-    public static final boolean useFaceRecog = false;
+    /**
+     * Disable the camera, as it can crash the Android emulator during development.
+     */
+    public static final boolean useCamera = true;
+
+    /**
+     * Can disable facial recognition here.
+     * To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt)
+     * present in the Mymou folder.
+     */
+    public static boolean useFaceRecog = false;
+
 
     public static RewardSystem rewardSystem;
 
@@ -47,6 +62,11 @@ public class MainMenu extends Activity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
 
+        // if we disable the camera, should ensure facerecog is also disabled...
+        if (!useCamera) {
+            useFaceRecog = false;
+        }
+
         initialiseLayoutParameters();
 
         checkPermissions();
@@ -56,7 +76,7 @@ public class MainMenu extends Activity  {
         initaliseRewardSystem();
 
         if(testingMode && permissions) {
-            //startTask();
+            startTask();
         }
     }
 
@@ -175,7 +195,7 @@ public class MainMenu extends Activity  {
         CompoundButton.OnCheckedChangeListener multiListener = new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 if (!rewardSystem.bluetoothConnection) {
-                    Log.d("MainMenu", "Error: Bluetooth not connected");
+                    Log.d(TAG, "Error: Bluetooth not connected");
                     return;
                 }
                 int chan = -1;
@@ -242,7 +262,7 @@ public class MainMenu extends Activity  {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("stop","stopped");
+        Log.d(TAG,"onDestroy() called");
         if(permissions) {
             rewardSystem.quitBt();
         }
