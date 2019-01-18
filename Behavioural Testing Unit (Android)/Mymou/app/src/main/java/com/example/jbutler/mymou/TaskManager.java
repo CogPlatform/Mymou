@@ -22,6 +22,8 @@ import java.util.Calendar;
 
 public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler {
 
+    private static final String TAG = "TaskManager";
+
     // Task you want to run goes here
     private static TaskExample task = new TaskExample();
     //private static TaskFromPaper task = new TaskFromPaper();
@@ -118,8 +120,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         setContentView(R.layout.activity_all_tasks);
-        CameraMain cM = new CameraMain();
-        fragmentTransaction.add(R.id.container, cM);
+        if (MainMenu.useCamera) {
+            CameraMain cM = new CameraMain();
+            fragmentTransaction.add(R.id.container, cM);
+        }
         fragmentTransaction.add(R.id.container, task);
         fragmentTransaction.commit();
     }
@@ -197,7 +201,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId +"," + trialCounter +"," + monkeyId + "," + overallTrialOutcome + "," + s;
                 logHandler.post(new LogEvent(s));
-                Log.d("log", s);
+                Log.d(TAG, s);
             }
         }
     }
@@ -267,7 +271,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
             }
             return true;
         } else {
-            Log.d("TaskManager", "hideApplication object not instantiated");
+            Log.d(TAG, "hideApplication object not instantiated");
             return false;
         }
     }
@@ -303,10 +307,10 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
         } else {
             // Lock main thread and wait until background thread takes photo and finishes face recog
             int currentnumphotos = numPhotos;
-            Log.d("MonkeyId", "Starting face recognition ");
+            Log.d(TAG, "checkMonkey() Starting face recognition ");
             takePhoto();
             while (currentnumphotos == numPhotos) { }
-            Log.d("MonkeyId", "End face recognition (value: " + monkeyId + ")");
+            Log.d(TAG, "checkMonkey() End face recognition (value: " + monkeyId + ")");
             if (monkeyId == monkId) {  // If they clicked correct button
                 return true;
             } else {
@@ -340,7 +344,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("stop","stopped");
+        Log.d(TAG,"onDestroy() called");
         rewardSystem.quitBt();
         unregisterReceivers();
         quitThreads();
