@@ -47,6 +47,7 @@ public class MainMenu extends Activity  {
 
     //Permission variables
     private boolean permissions = false;
+
     String[] permissionCodes = {
         Manifest.permission.CAMERA,
         Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -55,6 +56,7 @@ public class MainMenu extends Activity  {
         Manifest.permission.ACCESS_COARSE_LOCATION,
         Manifest.permission.WRITE_SETTINGS,
     };
+
     private Button[] permissionButtons = new Button[6];
 
     @Override
@@ -76,7 +78,7 @@ public class MainMenu extends Activity  {
         initaliseRewardSystem();
 
         if(testingMode && permissions) {
-            startTask();
+            //startTask();
         }
     }
 
@@ -126,7 +128,7 @@ public class MainMenu extends Activity  {
 
     private boolean checkPermissionNested(int i_perm) {
         final String permissionItem = permissionCodes[i_perm];
-        int hasPermission=-1;
+        int hasPermission=PackageManager.PERMISSION_DENIED;
         if (i_perm<5) {
             hasPermission = checkSelfPermission(permissionItem);
         } else {
