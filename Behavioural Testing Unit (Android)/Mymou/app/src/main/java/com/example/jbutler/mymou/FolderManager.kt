@@ -12,48 +12,58 @@ import java.util.*
  * Checks if session folder already exists, and creates it if not
  */
 
-internal object FolderManager {
+internal class FolderManager {
 
-    private val TAG = "FolderManager:"
-    private val uuid = UUID.randomUUID().toString()
-    var currentFolder = ""
-    var folderExists = false
+    private val TAG = "FolderManager"
+    private val suffixes = arrayListOf("i","f","O","V")
+    var currentFolder: File? = null
 
+    init {
+        getFolder()
+    }
 
     fun getFolder(): File {
-        Log.d(TAG+uuid, "getFolder()")
-        val thisPath = makeFullPathName()
-        val appFolder = File(thisPath)
+        val appFolder = File(makeFullPathName())
         if (!appFolder.exists()) {
-            Log.d(TAG+uuid, "$appFolder doesn't exist...")
+            Log.d(TAG, "$appFolder doesn't exist...")
             appFolder.mkdirs()
-            if (appFolder.exists()) {
-                makeFoldersForSession(thisPath)
-
-            } else {
-                Log.e(TAG,"CANNOT MAKE FOLDER!!!")
+            when (appFolder.exists()) {
+                true -> makeFoldersForSession(appFolder)
+                false -> Log.e(TAG,"CANNOT MAKE BASE FOLDER!!!")
             }
         }
-        currentFolder = thisPath
-        folderExists = appFolder.exists()
+        currentFolder = appFolder
         return appFolder
     }
 
-    private fun makeFoldersForSession(path: String) {
-        Log.d(TAG+uuid, "making sub-folders..")
-        makeFolder(path, "i")
-        makeFolder(path, "f")
-        makeFolder(path, "O")
-        makeFolder(path, "V")
+    fun getSubFolder(suffix: String = ""): File? {
+        if (currentFolder == null) getFolder()
+        Log.d(TAG, "getting $currentFolder / $suffix")
+        return when (suffix) {
+            "" -> currentFolder
+            else -> File(currentFolder,suffix)
+        }
+    }
+
+    fun getBaseDate(): String {
+        return SimpleDateFormat("YYYYMMDD", Locale.ENGLISH).format(System.currentTimeMillis())
+        //return DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()) //improved for API>25
+    }
+
+
+    private fun makeFoldersForSession(path: File) {
+        Log.d(TAG, "making sub-folders..")
+        for (s in suffixes)
+            makeFolder(path, s)
     }
 
     private fun makeFullPathName(): String {
         return Environment.getExternalStorageDirectory().absolutePath +
                 "/Mymou/" +
-                SimpleDateFormat("YYYYMMDD", Locale.ENGLISH).format(System.currentTimeMillis())
+                getBaseDate()
     }
 
-    private fun makeFolder(path: String, suffix: String) {
-        File("$path/$suffix/").mkdirs()
+    private fun makeFolder(path: File, suffix: String) {
+        File(path,suffix).mkdirs()
     }
 }

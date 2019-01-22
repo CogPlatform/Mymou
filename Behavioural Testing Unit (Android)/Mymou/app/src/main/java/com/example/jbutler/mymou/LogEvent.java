@@ -4,11 +4,8 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.io.FileWriter;
 
 /**
  * Writes linked String into  CURRENT_DATE.txt
@@ -23,24 +20,20 @@ class LogEvent implements Runnable {
 
     @Override
     public void run() {
-        FolderManager folderManager = new FolderManager();
-        File appFolder = folderManager.getFolder();
-        String fileName = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-        fileName = fileName + ".txt";
-        File savefile = new File(appFolder, fileName);
+        //Log.d("LogEvent","Start logging @ " + Thread.currentThread().getName());
+        File appFolder = MainMenu.folderManager.getFolder();
+        String fileName = MainMenu.folderManager.getBaseDate() + ".txt";
+        File saveFile = new File(appFolder, fileName);
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(savefile, true);
-            PrintWriter printWriter = new PrintWriter(fileOutputStream);
-            printWriter.println(message);
-            printWriter.flush();
-            printWriter.close();
-            fileOutputStream.close();
+            FileWriter thisWriter = new FileWriter(saveFile, true);
+            thisWriter.write(message+"\n");
+            thisWriter.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.d("LogEvent","Data logged");
+        //Log.d("LogEvent",message + " logged...");
     }
 
 }
