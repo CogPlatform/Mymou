@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Locale;
 
 public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler {
 
@@ -201,7 +202,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId +"," + trialCounter +"," + monkeyId + "," + overallTrialOutcome + "," + s;
                 logHandler.post(new LogEvent(s));
-                Log.d(TAG, s);
+                Log.d(TAG, s + " @ " + Thread.currentThread().getName());
             }
         }
     }
@@ -289,7 +290,7 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     public static void logEvent(String data) {
-        String timestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
+        String timestamp = new SimpleDateFormat("HHmmss_SSS", Locale.ENGLISH).format(System.currentTimeMillis());
         String msg = TaskManager.photoTimestamp + "," + timestamp + "," + data;
         trialData.add(msg);
     }

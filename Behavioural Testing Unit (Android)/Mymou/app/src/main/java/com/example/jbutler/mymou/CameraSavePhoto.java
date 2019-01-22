@@ -22,16 +22,16 @@ import java.util.Calendar;
  */
 class CameraSavePhoto implements Runnable {
 
+    private final String TAG = "CameraSavePhoto";
     private final Image mImage;
-    private String timestamp;
+    private final String timestamp;
     private final String day;
 
     public CameraSavePhoto(Image image, String timestampU) {
-        Log.d("CameraSavePhotoThree", "CameraSavePhoto instantiated");
+        Log.d(TAG, "CameraSavePhoto instantiated");
         mImage = image;
         timestamp = timestampU;
-        day = new SimpleDateFormat("yyyyMMdd").format(Calendar.getInstance().getTime());
-
+        day = MainMenu.folderManager.getBaseDate();
     }
 
     @Override
@@ -79,30 +79,24 @@ class CameraSavePhoto implements Runnable {
         savePhoto(bitmapCropped);
     }
 
-    private File getfolder(String suffix) {
-        String path= Environment.getExternalStorageDirectory().getAbsolutePath() + "/Mymou/" + day;
-
-        FolderManager folderManager = new FolderManager();
-        File appFolder = folderManager.getFolderName();
-
-        path = path + "/" + suffix + "/";
-        File file = new File(path);
-        Log.d("getfolder","path output: "+path);
-
-        return file;
+    private File getFolder(String suffix) {
+        File path = MainMenu.folderManager.getSubFolder(suffix);
+        Log.d(TAG,"path output: "+path);
+        return path;
     }
 
     private void savePhoto(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] bytes = stream.toByteArray();
-        File folder = getfolder("i");
+        File folder = getFolder("i");
         String fileName = day + "_" + timestamp + ".jpg";
         File filetowrite = new File(folder, fileName);
         FileOutputStream output = null;
         try {
             output = new FileOutputStream(filetowrite);
             output.write(bytes);
+            Log.d(TAG,"savePhoto() called");
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -118,7 +112,7 @@ class CameraSavePhoto implements Runnable {
     }
 
     private void saveIntArray(int[] intArray) {
-        File folder = getfolder("f");
+        File folder = getFolder("f");
         String fileName = "f"+ day + "_" + timestamp + ".txt";
         File savefile = new File(folder, fileName);
         try {
@@ -131,6 +125,7 @@ class CameraSavePhoto implements Runnable {
             }
             printWriter.close();
             fileOutputStream.close();
+            Log.d(TAG,"saveIntArray() called");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

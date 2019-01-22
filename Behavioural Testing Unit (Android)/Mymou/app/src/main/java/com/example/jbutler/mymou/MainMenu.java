@@ -44,6 +44,7 @@ public class MainMenu extends Activity  {
 
 
     public static RewardSystem rewardSystem;
+    public static FolderManager folderManager;
 
     //Permission variables
     private boolean permissions = false;
@@ -66,6 +67,8 @@ public class MainMenu extends Activity  {
         if (!useCamera) {
             useFaceRecog = false;
         }
+
+        folderManager = new FolderManager();
 
         initialiseLayoutParameters();
 
