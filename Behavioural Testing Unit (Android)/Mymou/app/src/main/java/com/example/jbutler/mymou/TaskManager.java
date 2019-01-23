@@ -1,10 +1,6 @@
 package com.example.jbutler.mymou;
 
-import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.PendingIntent;
+import android.app.*;
 import android.content.*;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,13 +11,14 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import androidx.fragment.app.FragmentActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class TaskManager extends Activity implements Thread.UncaughtExceptionHandler {
+public class TaskManager extends FragmentActivity implements Thread.UncaughtExceptionHandler {
 
     private static final String TAG = "TaskManager";
 
@@ -42,8 +39,6 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     public static String message;
     private static Handler logHandler;
     private static HandlerThread logThread;
-    private FragmentManager fragmentManager;
-    private FragmentTransaction fragmentTransaction;
     private static Context mContext;
     private static Activity activity;
 
@@ -118,8 +113,8 @@ public class TaskManager extends Activity implements Thread.UncaughtExceptionHan
     }
 
     private void startTask() {
-        fragmentManager = getFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         setContentView(R.layout.activity_all_tasks);
         if (MainMenu.useCamera) {
             CameraMain cM = new CameraMain();
