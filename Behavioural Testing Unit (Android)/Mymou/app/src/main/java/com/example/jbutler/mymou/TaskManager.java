@@ -1,6 +1,8 @@
 package com.example.jbutler.mymou;
 
-import android.app.*;
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.*;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +13,9 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.WindowManager;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -113,15 +117,15 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     }
 
     private void startTask() {
-        FragmentManager fragmentManager = getFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction myTransaction = fragmentManager.beginTransaction();
         setContentView(R.layout.activity_all_tasks);
         if (MainMenu.useCamera) {
             CameraMain cM = new CameraMain();
-            fragmentTransaction.add(R.id.container, cM);
+            myTransaction.add(R.id.container, cM);
         }
-        fragmentTransaction.add(R.id.container, task);
-        fragmentTransaction.commit();
+        myTransaction.add(R.id.container, task);
+        myTransaction.commit();
     }
 
     @Override

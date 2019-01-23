@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class MainMenu extends Activity  {
+public class MainMenu extends Activity {
 
     private static final String TAG = "MainMenu";
 
@@ -41,7 +41,6 @@ public class MainMenu extends Activity  {
      * present in the Mymou folder.
      */
     public static boolean useFaceRecog = false;
-
 
     public static RewardSystem rewardSystem;
     public static FolderManager folderManager;

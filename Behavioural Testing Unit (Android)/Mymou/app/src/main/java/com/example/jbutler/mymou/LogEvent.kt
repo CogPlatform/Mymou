@@ -14,7 +14,7 @@ internal class LogEvent(private val message: String) : Runnable {
         val saveFile = File(appFolder, fileName)
         try {
             FileWriter(saveFile, true).apply {
-                write("$message\n\n")
+                write("$message\n")
                 close()
             }
         } catch (e: IOException) {
