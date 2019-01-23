@@ -46,8 +46,9 @@ internal class FolderManager {
     }
 
     fun getBaseDate(): String {
-        return SimpleDateFormat("YYYYMMDD", Locale.ENGLISH).format(System.currentTimeMillis())
-        //return DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()) //improved for API>25
+        return SimpleDateFormat("YYYYMMDD", Locale.ENGLISH
+        ).format(System.currentTimeMillis()) //API < 26
+        //return DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()) //API > 25
     }
 
 
