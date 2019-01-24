@@ -5,7 +5,11 @@ import java.io.IOException
 import java.io.FileWriter
 
 /**
- * Writes linked String into CURRENT_DATE.txt
+ * LogEvent Writes String into CURRENT_DATE.txt using a runnable
+ *
+ * TODO: convert from thread+runnable into a coroutine
+ *
+ * @property message - message to log
  */
 internal class LogEvent(private val message: String) : Runnable {
     override fun run() {

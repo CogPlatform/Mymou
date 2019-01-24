@@ -55,7 +55,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
         initialiseScreenSettings();
 
-        if (MainMenu.useFaceRecog == true) {
+        if (MainMenu.useFaceRecognition) {
             // Load facerecog off the main thread as takes a while
             Thread t = new Thread(new Runnable() {
                 public void run() {
@@ -69,7 +69,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
         initialiseLogHandler();
 
-        if (MainMenu.testingMode == false) {
+        if (!MainMenu.testingMode) {
             this.startLockTask();
         }
 
@@ -300,7 +300,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
 
     // Takes selfie and checks to see if it matches with which monkey it should be
     public static boolean checkMonkey(int monkId) {
-        if (!MainMenu.useFaceRecog) {
+        if (!MainMenu.useFaceRecognition) {
             // If face recog disabled just take a photo and return
             //takePhoto();
             return true;
