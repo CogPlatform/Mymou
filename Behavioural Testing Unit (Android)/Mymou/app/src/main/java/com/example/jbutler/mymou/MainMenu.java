@@ -23,7 +23,7 @@ public class MainMenu extends Activity {
      * If true this automatically starts the task upon application startup
      * Speeds up debugging/testing
      */
-    public static final boolean testingMode = true;
+    public static final boolean testingMode = false;
 
     /**
      * Can disable bluetooth and RewardSystem connectivity here
@@ -40,9 +40,9 @@ public class MainMenu extends Activity {
      * To use faceRecog must have the weights for the ANN (wo.txt, wi.txt, meanAndVar.txt)
      * present in the Mymou folder.
      */
-    public static boolean useFaceRecog = false;
+    public static boolean useFaceRecognition = false;
 
-    public static RewardSystem rewardSystem;
+    public static RewardSystem rewardSystem; //TODO this is flagged as a memory leak (Context classes should not be in static fields)
     public static FolderManager folderManager;
 
     //Permission variables
@@ -64,7 +64,7 @@ public class MainMenu extends Activity {
 
         // if we disable the camera, should ensure facerecog is also disabled...
         if (!useCamera) {
-            useFaceRecog = false;
+            useFaceRecognition = false;
         }
 
         folderManager = new FolderManager();
@@ -85,7 +85,7 @@ public class MainMenu extends Activity {
     private void startTask() {
         Button startButton = findViewById(R.id.buttonStart);
         startButton.setText("Loading..");
-        rewardSystem.quitBt();  // Reconnect from next activity
+        RewardSystem.quitBt();  // Reconnect from next activity
         Intent intent = new Intent(this, TaskManager.class);
         startActivity(intent);
     }
