@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.Image;
-import android.os.Environment;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
@@ -14,8 +13,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.ByteBuffer;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 /**
  * Saves linked file into linked filename
