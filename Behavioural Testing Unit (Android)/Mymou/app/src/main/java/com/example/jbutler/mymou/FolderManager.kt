@@ -5,18 +5,20 @@ import android.util.Log
 
 import java.io.File
 import java.text.SimpleDateFormat
-import java.util.Calendar
+import java.util.Locale
+import java.util.UUID
 
 /**
  * Created by jbutler on 18/09/2018.
  * Checks if session folder already exists, and creates it if not
  */
 
-internal class FolderManager {
+object FolderManager {
 
-    private val TAG = "FolderManager"
+    private val uuid: String = UUID.randomUUID().toString().slice(0..7)
+    private val TAG = "FolderManager@$uuid"
     private val suffixes = arrayListOf("i","f","O","V")
-    var currentFolder: File? = null
+    private var currentFolder: File? = null
 
     init {
         getFolder()
@@ -46,8 +48,7 @@ internal class FolderManager {
     }
 
     fun getBaseDate(): String {
-        return SimpleDateFormat("YYYYMMDD", Locale.ENGLISH
-        ).format(System.currentTimeMillis()) //API < 26
+        return SimpleDateFormat("YYYYMMDD", Locale.ENGLISH).format(System.currentTimeMillis()) //API < 26
         //return DateTimeFormatter.BASIC_ISO_DATE.format(LocalDate.now()) //API > 25
     }
 

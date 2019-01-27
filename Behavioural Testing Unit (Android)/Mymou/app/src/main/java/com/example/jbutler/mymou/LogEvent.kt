@@ -14,7 +14,7 @@ import java.io.FileWriter
 internal class LogEvent(private val message: String) : Runnable {
     override fun run() {
         val appFolder = MainMenu.folderManager.getFolder()
-        val fileName = MainMenu.folderManager.getBaseDate() + ".txt"
+        val fileName = "${MainMenu.folderManager.getBaseDate()}.txt"
         val saveFile = File(appFolder, fileName)
         try {
             FileWriter(saveFile, true).apply {

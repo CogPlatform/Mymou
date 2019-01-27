@@ -45,6 +45,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
     private static HandlerThread logThread;
     private static Context mContext;
     private static Activity activity;
+    private static LogEvent2 myLog = LogEvent2.INSTANCE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
         registerPowerReceivers();
 
         initialiseLogHandler();
+        myLog.writeMessage("Starting TaskManager @ " );
 
         if (!MainMenu.testingMode) {
             this.startLockTask();
@@ -200,7 +202,7 @@ public class TaskManager extends FragmentActivity implements Thread.UncaughtExce
                 String s = trialData.get(i);
                 // Prefix variables that were constant throughout trial (trial result, which monkey, etc)
                 s = taskId +"," + trialCounter +"," + monkeyId + "," + overallTrialOutcome + "," + s;
-                logHandler.post(new LogEvent(s));
+                myLog.writeMessage(s);
                 Log.d(TAG, s + " @ " + Thread.currentThread().getName());
             }
         }

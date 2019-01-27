@@ -69,7 +69,8 @@ public class MainMenu extends Activity {
             useFaceRecognition = false;
         }
 
-        folderManager = new FolderManager();
+        folderManager = FolderManager.INSTANCE;
+        folderManager.getFolder();
 
         initialiseLayoutParameters();
 
