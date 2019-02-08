@@ -37,6 +37,8 @@ public class MainMenu extends Activity  {
 
     public static FolderManager folderManager;
 
+    public static SubjectManager subjectManager;
+
     //Permission variables
     private boolean permissions = false;
     String[] permissionCodes = {
@@ -62,6 +64,8 @@ public class MainMenu extends Activity  {
 
         initialiseFolders();
 
+        initialiseSubjects();
+
         initialiseRewardSystem();
 
         if(testingMode && permissions) {
@@ -76,6 +80,11 @@ public class MainMenu extends Activity  {
         rewardSystem.quitBt();  // Reconnect from next activity
         Intent intent = new Intent(this, TaskManager.class);
         startActivity(intent);
+    }
+
+    private void initialiseSubjects() {
+        subjectManager = new SubjectManager();
+        folderManager.addFolders(subjectManager.getSubjectNames());
     }
 
     private void initialiseFolders() {

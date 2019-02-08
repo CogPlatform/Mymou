@@ -701,7 +701,7 @@ public class TaskFromPaper extends Fragment
 
 
     private void logStep(int result) {
-        String timestamp = new SimpleDateFormat("HHmmss_SSS").format(Calendar.getInstance().getTime());
+        String timestamp = MainMenu.folderManager.getTimestamp();
         String msg = "038," + TaskManager.photoTimestamp + "," + timestamp + "," + trialCounter + "," +
                 numSteps + "," + result + "," + currentDistanceFromTarget + "," +
                 targetPos + "," + currentPos + "," + startingLoc + "," + pathDistance + "," +

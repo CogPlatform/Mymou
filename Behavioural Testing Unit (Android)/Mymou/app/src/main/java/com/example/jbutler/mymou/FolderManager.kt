@@ -15,8 +15,8 @@ import java.util.Locale
 class FolderManager {
 
     private val TAG = "FolderManager"
-    private val suffixes = arrayListOf("i","f","O","V")
-    private var currentFolder: File? = null
+    var suffixes = arrayListOf("i","f")
+    var currentFolder: File? = null
 
     init {
         getFolder()
@@ -38,11 +38,24 @@ class FolderManager {
 
     fun getSubFolder(suffix: String = ""): File? {
         if (currentFolder == null) getFolder()
-        Log.d(TAG, "getting $currentFolder/$suffix")
+        Log.d(TAG, "Getting $currentFolder/$suffix")
         return when (suffix) {
             "" -> currentFolder
             else -> File(currentFolder,suffix)
         }
+    }
+
+    fun getRootFolder(): File? {
+        if (currentFolder == null) getFolder()
+        return File(currentFolder?.parent)
+    }
+
+    fun addFolders(newSuffixes: MutableList<String>) {
+        suffixes.addAll(newSuffixes)
+        if (currentFolder == null) {
+            getFolder()
+        }
+        makeFoldersForSession(currentFolder)
     }
 
     fun getBaseDate(): String {
@@ -54,19 +67,15 @@ class FolderManager {
         return SimpleDateFormat("HHmmss_SSS", Locale.ENGLISH).format(System.currentTimeMillis()) //API < 26
     }
 
-    private fun makeFoldersForSession(path: File) {
-        Log.d(TAG, "making sub-folders..")
-        for (s in suffixes)
-            makeFolder(path, s)
+    private fun makeFoldersForSession(path: File?) {
+        if (path == null) return
+        for (suffix in suffixes) {
+            Log.d(TAG, "... making sub-folder $suffix ...")
+            File(path, suffix).mkdirs()
+        }
     }
 
     private fun makeFullPathName(): String {
-        return Environment.getExternalStorageDirectory().absolutePath +
-                "/Mymou/" +
-                getBaseDate()
-    }
-
-    private fun makeFolder(path: File, suffix: String) {
-        File(path,suffix).mkdirs()
+        return Environment.getExternalStorageDirectory().absolutePath + "/Mymou/" + getBaseDate()
     }
 }
