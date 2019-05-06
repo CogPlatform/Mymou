@@ -3,9 +3,9 @@ package com.example.jbutler.mymou
 import android.util.Log
 import com.google.gson.GsonBuilder
 
-import java.io.File
-import java.io.IOException
-import java.io.FileWriter
+import jdk.nashorn.internal.runtime.ScriptingFunctions.readLine
+import java.io.*
+
 
 enum class Locations {
     local, database
@@ -56,6 +56,13 @@ class SubjectManager(var source: Locations = Locations.local, var path: String =
         //TODO need to build database service and API etc.
     }
 
+    private fun readFromFile(): String {
+        val appFolder = MainMenu.folderManager.getRootFolder()
+        val fileName = "subjects.json"
+        val loadFile = File(appFolder, fileName)
+        return usingBufferedReader(loadFile)
+    }
+
     private fun saveToDisk() {
         val appFolder = MainMenu.folderManager.getRootFolder()
         val fileName = "subjects.json"
@@ -68,5 +75,21 @@ class SubjectManager(var source: Locations = Locations.local, var path: String =
         } catch (e: IOException) {
             e.printStackTrace()
         }
+    }
+
+    private fun usingBufferedReader(filePath: File): String {
+        val contentBuilder = StringBuilder()
+        try {
+            BufferedReader(FileReader(filePath)).use { br ->
+
+                while ((sCurrentLine = br.readLine()) != null) {
+                    contentBuilder.append(sCurrentLine).append("\n")
+                }
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        return contentBuilder.toString()
     }
 }
