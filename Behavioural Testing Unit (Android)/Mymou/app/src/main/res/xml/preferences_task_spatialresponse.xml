@@ -9,6 +9,7 @@
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_sr_num_stimuli"
                 app:key="@string/preftag_sr_num_stimuli"
+                app:min="1"
                 app:title="Number of successive positions to memorise"
                 android:max="8"/>
 
@@ -16,11 +17,13 @@
                 android:defaultValue="@integer/default_sr_locations"
                 app:key="@string/preftag_sr_locations"
                 android:max="8"
+                app:min="2"
                 app:title="Number of spatial positions (2/4/8) to chose from" />
 
         <mymou.preferences.SeekBarPreferenceCustom
                 android:defaultValue="@integer/default_sr_duration_on"
                 app:key="@string/preftag_sr_duration_on"
+                app:min="50"
                 app:title="Duration (ms) to show the cue" />
 
         <mymou.preferences.SeekBarPreferenceCustom
