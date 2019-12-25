@@ -10,6 +10,7 @@ import android.media.Image;
 import android.util.Log;
 import androidx.preference.PreferenceManager;
 import mymou.Utils.FolderManager;
+import mymou.preferences.PreferencesManager;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -78,32 +79,35 @@ class CameraSavePhoto implements Runnable {
 
         }
 
+        PreferencesManager preferencesManager = new PreferencesManager(mContext);
+
         // Create integer array for facerecog
-        int x = bitmapCropped.getWidth();
-        int y = bitmapCropped.getHeight();
-        int[] intArray = new int[x * y];
-        bitmapCropped.getPixels(intArray, 0, x, 0, 0, x, y);
-        for (int i = 0; i < intArray.length; i++) {
-            intArray[i] = Color.red(intArray[i]); //Any colour will do as greyscale
+        if (preferencesManager.facerecog == true) {
+            int x = bitmapCropped.getWidth();
+            int y = bitmapCropped.getHeight();
+            int[] intArray = new int[x * y];
+            bitmapCropped.getPixels(intArray, 0, x, 0, 0, x, y);
+            for (int i = 0; i < intArray.length; i++) {
+                intArray[i] = Color.red(intArray[i]); //Any colour will do as greyscale
+            }
+            // Run image through faceRecog
+            TaskManager.setFaceRecogPrediction(intArray);
+            Log.d(TAG, "Face recog finished");
+
+            //Save pixel values
+            long startTime = System.currentTimeMillis();
+            saveIntArray(intArray);
+            long endTime = System.currentTimeMillis();
+            long duration = (endTime - startTime);
+            Log.d(TAG, "Integer array saved in " + duration + "ms");
         }
 
-        // Run image through faceRecog
-        TaskManager.setFaceRecogPrediction(intArray);
-        Log.d(TAG, "Face recog finished");
-
-        //Save pixel values
-        long startTime = System.currentTimeMillis();
-        saveIntArray(intArray);
-        long endTime = System.currentTimeMillis();
-        long duration = (endTime - startTime);
-        Log.d(TAG, "Integer array saved in "+duration);
-
         //Save photo as jpeg
-        startTime = System.currentTimeMillis();
+        long startTimej = System.currentTimeMillis();
         savePhoto(bitmapCropped);
-        endTime = System.currentTimeMillis();
-        duration = (endTime - startTime);
-        Log.d(TAG, "Cropped photo saved in "+duration);
+        long endTimej = System.currentTimeMillis();
+        long durationj = (endTimej - startTimej);
+        Log.d(TAG, "Cropped photo saved in " + durationj + "ms");
 
         Log.d(TAG, "CameraSavePhoto finished successfully");
 

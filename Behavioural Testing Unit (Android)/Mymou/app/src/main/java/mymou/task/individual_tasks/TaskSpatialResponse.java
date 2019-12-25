@@ -1,5 +1,6 @@
 package mymou.task.individual_tasks;
 
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,6 +12,7 @@ import android.widget.Button;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 
 import mymou.R;
 import mymou.Utils.UtilsSystem;
@@ -139,10 +141,10 @@ public class TaskSpatialResponse extends Task {
         drawable_grey.setColor(ContextCompat.getColor(getContext(), R.color.grey));
         drawable_red = new GradientDrawable();
         drawable_red.setShape(GradientDrawable.OVAL);
-        drawable_red.setColor(ContextCompat.getColor(getContext(), R.color.red));
+        drawable_red.setColor(ContextCompat.getColor(getContext(), R.color.yellow));
         drawable_bg = new GradientDrawable();
         drawable_bg.setShape(GradientDrawable.RECTANGLE);
-        drawable_bg.setColor(ContextCompat.getColor(getContext(), R.color.silver));
+        drawable_bg.setColor(prefManager.taskbackground);
 
         ConstraintLayout layout = getView().findViewById(R.id.parent_task_empty);
 
