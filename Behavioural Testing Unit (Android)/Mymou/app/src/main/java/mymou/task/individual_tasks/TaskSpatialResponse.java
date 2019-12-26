@@ -94,6 +94,7 @@ public class TaskSpatialResponse extends Task {
                 @Override
                 public void run() {
                     task_phase = 3;
+                    callback.resetTimer_(); // this resets the response timeout timer back to 0;
                     UtilsTask.toggleCues(bg_cue, false);
                     for (int i = 0; i < cues.length; i++) {
 
